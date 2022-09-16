@@ -44,6 +44,11 @@ table {
 }
 /* Style */
 
+body{
+    background-color: #000;
+    color: #fafafa;
+}
+
 .container {
     display: grid;
     place-items: center;
@@ -60,6 +65,8 @@ table {
     background-position: center;
     background-size: contain;
     background-repeat: no-repeat;
+    background-color: #fafafa;
+    border: 1px solid;
 }
 
 .container div {
@@ -80,7 +87,6 @@ table {
 }
 
 h1{
-    color: black;
     text-align: center;
     font-size: 28px;
     font-style: italic;
@@ -89,7 +95,6 @@ h1{
 }
 
 h2{
-    color: black;
     text-align: center;
     font-size: 28px;
     font-style: italic;

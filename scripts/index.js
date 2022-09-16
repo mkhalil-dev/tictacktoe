@@ -43,10 +43,12 @@ function checkwin(array){
     ){
         console.log("won")
         if(yellow == array){
+            document.getElementById("mid").innerText = "Player 2 WON!"
             player2++;
         }
         else{
             player1++;
+            document.getElementById("mid").innerText = "Player 1 WON!"
             document
         }
         yellow = [];
@@ -60,6 +62,18 @@ function checkwin(array){
 }
 
 function reset(){
+    if(player1>player2){
+        document.getElementById("score1").style.color = "green";
+        document.getElementById("score2").style.color = "red";
+    }
+    else if(player1<player2){
+        document.getElementById("score1").style.color = "red";
+        document.getElementById("score2").style.color = "green";
+    }
+    else{
+        document.getElementById("score1").style.color = "yellow";
+        document.getElementById("score2").style.color = "yellow";
+    }
     yellow = [];
     red = [];
     turn = 0;
