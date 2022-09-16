@@ -1,12 +1,13 @@
 let yellow = [];
 let red = [];
-let turn = 0;
 let items = [];
+let turn = 0;
 let player1 = 0;
 let player2 = 0;
-//Event Listners for each box
 
+//Event Listners for each box
 eventlist()
+
 //Setting Event Listeners
 function eventlist(){
     document.querySelectorAll(".posdiv").forEach((item,i)=>{
