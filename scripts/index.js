@@ -11,16 +11,17 @@ eventlist()
 function eventlist(){
     document.querySelectorAll(".posdiv").forEach((item,i)=>{
         item.addEventListener('click', function(){
-            console.log("hi")
+            items[i] = item;
             if(turn%2 == 0){
+                item.style.backgroundImage = "url(assets/red.png)";
                 red.push(`${i+1}`);
                 checkwin(red);
             }
             else{
+                item.style.backgroundImage = 'url(assets/yellow.png)';
                 yellow.push(`${i+1}`);
                 checkwin(yellow);
             }
-            items.push(item);
             this.removeEventListener('click', arguments.callee);
         })
     })
@@ -29,6 +30,7 @@ function eventlist(){
 
 //WIN CONDITIONS
 function checkwin(array){
+    console.log(items)
     if(
         (array.includes("1") && array.includes("2") && array.includes("3")) ||
         (array.includes("4") && array.includes("5") && array.includes("6")) ||
@@ -60,22 +62,30 @@ function checkwin(array){
 function reset(){
     yellow = [];
     red = [];
+    turn = 0;
     document.getElementById("score1").innerText = player1;
-    document.getElementById("score1").innerText = player2;
+    document.getElementById("score2").innerText = player2;
+    setTimeout(()=>{
     items.forEach((item,i)=>{
-        item.addEventListener('click', function(){
-            console.log("hi")
-            if(turn%2 == 0){
-                red.push(`${i+1}`);
-                checkwin(red);
+            if(!item){
+                return;
             }
-            else{
-                yellow.push(`${i+1}`);
-                checkwin(yellow);
-            }
-            items.push(item);
-            this.removeEventListener('click', arguments.callee);
+            item.style.backgroundImage = "";
+            item.addEventListener('click', function(){
+                items[i] = item;
+                if(turn%2 == 0){
+                    item.style.backgroundImage = "url(assets/red.png)";
+                    red.push(`${i+1}`);
+                    checkwin(red);
+                }
+                else{
+                    item.style.backgroundImage = 'url(assets/yellow.png)';
+                    yellow.push(`${i+1}`);
+                    checkwin(yellow);
+                }
+                this.removeEventListener('click', arguments.callee);
+            })
         })
-    })
-    item = [];
+        items = [];
+    },800)
 }

@@ -74,6 +74,9 @@ table {
     border: 0;
     max-width: 90%;
     max-height: 90%;
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
 }
 
 h1{
