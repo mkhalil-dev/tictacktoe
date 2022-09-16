@@ -54,7 +54,7 @@ table {
     ;
     grid-template-rows: 179px 185px 179px;
     grid-template-columns: 180px 180px 180px;
-    margin: 100px 470px;
+    margin: 50px 470px;
     width: 533px;
     background-image: url("../assets/board.png");
     background-position: center;
@@ -82,6 +82,7 @@ h1{
     font-size: 28px;
     font-style: italic;
     margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 h2{
