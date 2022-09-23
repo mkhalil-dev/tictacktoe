@@ -124,14 +124,13 @@ function reset(){
                     item.style.backgroundImage = "url(assets/red.png)";
                     red.push(`${i+1}`);
                     empty = arrayRemove(empty, `${i}`)
-                    checkwin(red)
-                    if(empty.length){
+                    if(!checkwin(red)){
                     spot = bestspot(empty)
                     document.getElementById(`${spot}`).style.cursor = "auto";
                     document.getElementById(`${spot}`).style.backgroundImage = 'url(assets/yellow.png)';
                     empty = arrayRemove(empty, `${spot}`)
                     items[spot] = document.getElementById(`${spot}`);
-                    yellow.push(`${i+1}`);
+                    yellow.push(`${spot+1}`);
                     console.log(yellow)
                     checkwin(yellow);
                     console.log(empty)
