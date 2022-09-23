@@ -27,9 +27,7 @@ function eventlist(){
                 empty = arrayRemove(empty, `${spot}`)
                 items[spot] = document.getElementById(`${spot}`);
                 yellow.push(`${spot+1}`);
-                console.log(yellow)
                 checkwin(yellow);
-                console.log(empty)
                 }
             }
             this.removeEventListener('click', arguments.callee);
@@ -38,7 +36,7 @@ function eventlist(){
 }
 
 function bestspot(empty){
-    return empty[0];
+    return empty[Math.floor(Math.random() * empty.length)];
 }
 
 function arrayRemove(arr, value) { 
@@ -131,9 +129,7 @@ function reset(){
                     empty = arrayRemove(empty, `${spot}`)
                     items[spot] = document.getElementById(`${spot}`);
                     yellow.push(`${spot+1}`);
-                    console.log(yellow)
                     checkwin(yellow);
-                    console.log(empty)
                     }
                 }
                 this.removeEventListener('click', arguments.callee);
@@ -141,50 +137,4 @@ function reset(){
         })
         items = [];
     },800)
-}
-
-
-function minimax(empty, player) {
-	var availSpots = emptySquares();
-
-
-	var moves = [];
-	for (var i = 0; i < empty.length; i++) {
-		var move = {};
-		move.index = newBoard[availSpots[i]];
-		newBoard[availSpots[i]] = player;
-
-		if (player == 'yellow') {
-			var result = minimax(newBoard, 'red');
-			move.score = result.score;
-		} else {
-			var result = minimax(newBoard, 'yellow');
-			move.score = result.score;
-		}
-
-		newBoard[availSpots[i]] = move.index;
-
-		moves.push(move);
-	}
-
-	var bestMove;
-	if(player == 'yellow') {
-		var bestScore = -10000;
-		for(var i = 0; i < moves.length; i++) {
-			if (moves[i].score > bestScore) {
-				bestScore = moves[i].score;
-				bestMove = i;
-			}
-		}
-	} else {
-		var bestScore = 10000;
-		for(var i = 0; i < moves.length; i++) {
-			if (moves[i].score < bestScore) {
-				bestScore = moves[i].score;
-				bestMove = i;
-			}
-		}
-	}
-
-	return moves[bestMove];
 }
