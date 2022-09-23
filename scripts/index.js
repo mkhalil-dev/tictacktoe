@@ -4,6 +4,8 @@ let items = [];
 let turn = 0;
 let player1 = 0;
 let player2 = 0;
+let empty = [0,1,2,3,4,5,6,7,8];
+
 
 //Event Listners for each box
 eventlist()
@@ -12,24 +14,38 @@ eventlist()
 function eventlist(){
     document.querySelectorAll(".posdiv").forEach((item,i)=>{
         item.addEventListener('click', function(){
-            items[i] = item;
-            //condition to know which player's turn it is
-            if(turn%2 == 0){
+            if(empty.includes(i)){
+                items[i] = item;
+                //condition to know which player's turn it is
                 item.style.backgroundImage = "url(assets/red.png)";
                 red.push(`${i+1}`);
-                checkwin(red);
-            }
-            else{
-                item.style.backgroundImage = 'url(assets/yellow.png)';
-                yellow.push(`${i+1}`);
+                empty = arrayRemove(empty, `${i}`)
+                if(!checkwin(red)){
+                spot = bestspot(empty)
+                document.getElementById(`${spot}`).style.cursor = "auto";
+                document.getElementById(`${spot}`).style.backgroundImage = 'url(assets/yellow.png)';
+                empty = arrayRemove(empty, `${spot}`)
+                items[spot] = document.getElementById(`${spot}`);
+                yellow.push(`${spot+1}`);
+                console.log(yellow)
                 checkwin(yellow);
+                console.log(empty)
+                }
             }
-            item.style.cursor = "auto";
             this.removeEventListener('click', arguments.callee);
         })
     })
 }
 
+function bestspot(empty){
+    return empty[0];
+}
+
+function arrayRemove(arr, value) { 
+    return arr.filter(function(ele){ 
+        return ele != value; 
+    });
+}
 
 //WIN CONDITIONS
 function checkwin(array){
@@ -56,16 +72,20 @@ function checkwin(array){
         else{
             player1++;
             document.getElementById("mid").innerText = "Player 1 WON!"
-            document
         }
         //reset in any case
         reset();
+        return true;
     }
     //If we have filled all 9 spots reset
     else if((yellow.length + red.length) == 9){
+        document.getElementById("mid").innerText = "It's a draw!"
         reset()
+        return true;
     }
-    turn++;
+    else{
+        return false;
+    }
 }
 
 function reset(){
@@ -85,7 +105,6 @@ function reset(){
     //reset all array and turn, i've considered alternating turn, however, didn't have the time to do it
     yellow = [];
     red = [];
-    turn = 0;
     //update score
     document.getElementById("score1").innerText = player1;
     document.getElementById("score2").innerText = player2;
@@ -97,22 +116,75 @@ function reset(){
             }
             item.style.backgroundImage = "";
             item.style.cursor = "pointer";
+            empty = [0,1,2,3,4,5,6,7,8];
             item.addEventListener('click', function(){
-                items[i] = item;
-                if(turn%2 == 0){
+                if(empty.includes(i)){
+                    items[i] = item;
+                    //condition to know which player's turn it is
                     item.style.backgroundImage = "url(assets/red.png)";
                     red.push(`${i+1}`);
-                    checkwin(red);
-                }
-                else{
-                    item.style.backgroundImage = 'url(assets/yellow.png)';
+                    empty = arrayRemove(empty, `${i}`)
+                    checkwin(red)
+                    if(empty.length){
+                    spot = bestspot(empty)
+                    document.getElementById(`${spot}`).style.cursor = "auto";
+                    document.getElementById(`${spot}`).style.backgroundImage = 'url(assets/yellow.png)';
+                    empty = arrayRemove(empty, `${spot}`)
+                    items[spot] = document.getElementById(`${spot}`);
                     yellow.push(`${i+1}`);
+                    console.log(yellow)
                     checkwin(yellow);
+                    console.log(empty)
+                    }
                 }
-                item.style.cursor = "auto";
                 this.removeEventListener('click', arguments.callee);
             })
         })
         items = [];
     },800)
+}
+
+
+function minimax(newBoard, player) {
+    var availSpots = emptySquares();
+
+    var moves = [];
+    for (var i = 0; i < availSpots.length; i++) {
+        var move = {};
+        move.index = newBoard[availSpots[i]];
+        newBoard[availSpots[i]] = player;
+
+        if (player == aiPlayer) {
+            var result = minimax(newBoard, huPlayer);
+            move.score = result.score;
+        } else {
+            var result = minimax(newBoard, aiPlayer);
+            move.score = result.score;
+        }
+
+        newBoard[availSpots[i]] = move.index;
+
+        moves.push(move);
+    }
+
+    var bestMove;
+    if (player === aiPlayer) {
+        var bestScore = -10000;
+        for (var i = 0; i < moves.length; i++) {
+            if (moves[i].score > bestScore) {
+                bestScore = moves[i].score;
+                bestMove = i;
+            }
+        }
+    } else {
+        var bestScore = 10000;
+        for (var i = 0; i < moves.length; i++) {
+            if (moves[i].score < bestScore) {
+                bestScore = moves[i].score;
+                bestMove = i;
+            }
+        }
+    }
+
+    return moves[bestMove];
 }
