@@ -144,46 +144,47 @@ function reset(){
 }
 
 
-function minimax(newBoard, player) {
-    var availSpots = emptySquares();
+function minimax(empty, player) {
+	var availSpots = emptySquares();
 
-    var moves = [];
-    for (var i = 0; i < availSpots.length; i++) {
-        var move = {};
-        move.index = newBoard[availSpots[i]];
-        newBoard[availSpots[i]] = player;
 
-        if (player == aiPlayer) {
-            var result = minimax(newBoard, huPlayer);
-            move.score = result.score;
-        } else {
-            var result = minimax(newBoard, aiPlayer);
-            move.score = result.score;
-        }
+	var moves = [];
+	for (var i = 0; i < empty.length; i++) {
+		var move = {};
+		move.index = newBoard[availSpots[i]];
+		newBoard[availSpots[i]] = player;
 
-        newBoard[availSpots[i]] = move.index;
+		if (player == 'yellow') {
+			var result = minimax(newBoard, 'red');
+			move.score = result.score;
+		} else {
+			var result = minimax(newBoard, 'yellow');
+			move.score = result.score;
+		}
 
-        moves.push(move);
-    }
+		newBoard[availSpots[i]] = move.index;
 
-    var bestMove;
-    if (player === aiPlayer) {
-        var bestScore = -10000;
-        for (var i = 0; i < moves.length; i++) {
-            if (moves[i].score > bestScore) {
-                bestScore = moves[i].score;
-                bestMove = i;
-            }
-        }
-    } else {
-        var bestScore = 10000;
-        for (var i = 0; i < moves.length; i++) {
-            if (moves[i].score < bestScore) {
-                bestScore = moves[i].score;
-                bestMove = i;
-            }
-        }
-    }
+		moves.push(move);
+	}
 
-    return moves[bestMove];
+	var bestMove;
+	if(player == 'yellow') {
+		var bestScore = -10000;
+		for(var i = 0; i < moves.length; i++) {
+			if (moves[i].score > bestScore) {
+				bestScore = moves[i].score;
+				bestMove = i;
+			}
+		}
+	} else {
+		var bestScore = 10000;
+		for(var i = 0; i < moves.length; i++) {
+			if (moves[i].score < bestScore) {
+				bestScore = moves[i].score;
+				bestMove = i;
+			}
+		}
+	}
+
+	return moves[bestMove];
 }
